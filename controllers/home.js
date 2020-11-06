@@ -11,4 +11,12 @@ router.get('/', (req, res)=>{
 	
 });
 
+router.get('/userlist', (req, res)=>{
+	if(req.cookies['uname']){
+		res.render('home/userlist', {users: req.session.userlist});
+	}else{
+		res.redirect('/login');
+	}
+});
+
 module.exports = router
