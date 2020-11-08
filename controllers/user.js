@@ -46,29 +46,60 @@ router.get('/edit/:id', (req, res)=>{
 	}
 });
 
-router.post('/edit', (req, res)=>{
+router.post('/edit/:id', (req, res)=>{
 	
 	if(req.cookies['uname'] != ""){
-		res.send('updated');
+		var userlist = req.session.userlist;
+		userlist.forEach(function(user, index){
+			if(req.params.id == user[0]){
+				userlist[index][1] = req.body.username;
+				userlist[index][2] = req.body.password;
+				userlist[index][3] = req.body.email;
+			}
+		});
+		req.session.userlist = userlist;
+		res.redirect('/home/userlist');
 	}else{
 		res.redirect('/login');
 	}
 });
 
-router.get('/delete', (req, res)=>{
+router.get('/delete/:id', (req, res)=>{
 	
-	if(req.cookies['uname'] != ""){
-		var user = {username: 'alamin', password: '123', email: 'email@gmail.com'};
-		res.render('user/delete', user);
+	if(req.cookies['uname']){
+		var userlist = req.session.userlist;
+		var duser;
+		userlist.forEach(function(user){
+			if(req.params.id == user[0]){
+				duser = {
+					username : user[1],
+					password : user[2],
+					email : user[3]
+				};
+			}
+		});
+		res.render('user/delete', duser);
 	}else{
 		res.redirect('/login');
 	}
 });
 
-router.post('/delete', (req, res)=>{
+router.post('/delete/:id', (req, res)=>{
 	
-	if(req.cookies['uname'] != ""){
-		res.send('done!');
+	if(req.cookies['uname']){
+		var userlist = req.session.userlist;
+		var deleteuser;
+		userlist.forEach(function(user,index){
+			if(req.params.id == user[0]){
+				deleteuser = user;
+			}
+		});
+		var newuserlist = userlist.filter(function(value){
+			return value != deleteuser;
+		});
+		req.session.userlist = newuserlist;
+		res.redirect('/home/userlist');
+
 	}else{
 		res.redirect('/login');
 	}
