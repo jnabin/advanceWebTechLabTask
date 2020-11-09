@@ -32,13 +32,13 @@
 		<% 
 			users.forEach( function(std){ %>
 			<tr>
-				<td><%= std[0] %></td>
-				<td><%= std[1] %></td>
-				<td><%= std[2] %></td>
-				<td><%= std[3] %></td>
+				<td><%= std.id %></td>
+				<td><%= std.username %></td>
+				<td><%= std.password %></td>
+				<td><%= std.email %></td>
 				<td>
-					<a href="/user/edit/<%= std[0] %>">Edit</a> |
-					<a href="/user/delete/<%= std[0] %>">Delete</a>
+					<a href="/user/edit/<%= std.id %>/<%= std.username %>/<%= std.password %>/<%= std.email %>">Edit</a> |
+					<a href="/user/delete/<%= std.id %>/<%= std.username %>/<%= std.password %>/<%= std.email %>">Delete</a>
 				</td>
 			</tr>
 		<%

@@ -14,6 +14,7 @@ app.set('view engine', 'ejs');
 
 
 //middleware
+app.use('/abc', express.static('asset'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(exsession({secret: 'hello', saveUninitialized: true, resave: false}));
